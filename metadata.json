@@ -1,0 +1,7 @@
+{
+  "name": "AIparameter Pro_Max_e_scanstd_4.0.14",
+  "description": "Update thêm chức năng (Next step: Update hướng dẫn và lược bỏ field data không quan trọng)",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
