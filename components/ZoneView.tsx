@@ -3,7 +3,7 @@ import { ImageUploader } from './ImageUploader';
 import { DataCard } from './DataCard';
 import { ProcessingState, StandardDataMap, ProductPreset, ZoneDefinition, ImageProcessingProfile, DEFAULT_PROCESSING_PROFILES, getDefaultTolerance } from '../types';
 import { analyzeImage } from '../services/geminiService';
-import { Trash2, Info, CheckCircle2, Eye, EyeOff, Scan, X, LayoutGrid, List, ChevronUp, ChevronDown } from 'lucide-react';
+import { Trash2, Info, CheckCircle2, Eye, EyeOff, Scan, X, LayoutGrid, List, ChevronUp, ChevronDown, Check } from 'lucide-react';
 
 // Helper to convert Google Drive viewer links to direct image links
 const getDirectImageUrl = (url: string | undefined): string | undefined => {
@@ -368,9 +368,22 @@ export const ZoneView: React.FC<ZoneViewProps> = React.memo(({
                           placeholder="--"
                         />
                         {std !== undefined && (
-                            <div className="flex items-baseline border-l border-slate-700 pl-2 ml-2">
-                              <span className="text-[10px] text-slate-500 font-bold">{std}</span>
-                              <span className="text-[9px] text-slate-600 font-bold ml-0.5">±{tol}</span>
+                            <div className="flex items-center border-l border-slate-700 pl-2 ml-2 gap-2">
+                              <div className="flex items-baseline">
+                                <span className="text-[10px] text-slate-500 font-bold">{std}</span>
+                                <span className="text-[9px] text-slate-600 font-bold ml-0.5">±{tol}</span>
+                              </div>
+                              {val !== null && (
+                                diffAbs <= tol ? (
+                                  <div className="w-3.5 h-3.5 rounded-full bg-green-500 flex items-center justify-center shadow-sm">
+                                    <Check size={10} className="text-white" strokeWidth={4} />
+                                  </div>
+                                ) : (
+                                  <div className="w-3.5 h-3.5 rounded-full bg-red-500 flex items-center justify-center shadow-sm">
+                                    <X size={10} className="text-white" strokeWidth={4} />
+                                  </div>
+                                )
+                              )}
                             </div>
                         )}
                     </div>
