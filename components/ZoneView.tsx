@@ -72,7 +72,7 @@ export const ZoneView: React.FC<ZoneViewProps> = React.memo(({
   const [visibleGuides, setVisibleGuides] = useState<Record<string, boolean>>({});
   const [viewModes, setViewModes] = useState<Record<string, 'display' | 'processed'>>({});
   const [zoomedImage, setZoomedImage] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
   const toggleGuide = (id: string) => {
     setVisibleGuides(prev => ({ ...prev, [id]: !prev[id] }));
@@ -357,7 +357,7 @@ export const ZoneView: React.FC<ZoneViewProps> = React.memo(({
 
                 return (
                   <div key={key} className={`bg-slate-900/80 px-3 py-2 rounded-xl border ${borderColor} flex items-center justify-between transition-all gap-2`}>
-                    <p className="text-[10px] text-slate-300 font-bold uppercase leading-tight flex-1">{fieldLabels[key] || key}</p>
+                    <p className="text-[10px] text-slate-200 font-black uppercase leading-tight flex-1">{fieldLabels[key] || key}</p>
                     <div className="flex items-center font-mono whitespace-nowrap">
                         <input
                           type="number"

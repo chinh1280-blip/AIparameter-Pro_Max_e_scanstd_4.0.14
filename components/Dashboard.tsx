@@ -4,7 +4,7 @@ import {
   Search, BarChart3, ChevronDown, ChevronUp, 
   AlertCircle, CheckCircle2, History, RefreshCw, TrendingUp,
   Clock, Inbox, Eye, Target, Calendar, Percent, Monitor,
-  Layers, Info, X, Activity, EyeOff, LayoutGrid, List
+  Layers, Info, X, Activity, EyeOff, LayoutGrid, List, Check
 } from 'lucide-react';
 import { 
   XAxis, YAxis, CartesianGrid, Tooltip, 
@@ -140,7 +140,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ logs, presets, machines, o
   const [showDiff, setShowDiff] = useState(false);
   const [showPercent, setShowPercent] = useState(false);
   const [showStdLines, setShowStdLines] = useState(true);
-  const [logViewMode, setLogViewMode] = useState<'grid' | 'list'>('grid');
+  const [logViewMode, setLogViewMode] = useState<'grid' | 'list'>('list');
 
   const availableProducts = useMemo(() => {
     const rawData = Array.isArray(logs) ? logs : [];
@@ -615,7 +615,7 @@ const CustomTooltip = ({ active, payload, label, fieldLabels }: any) => {
   return null;
 };
 
-const LogCard: React.FC<{ log: any, availableFields: string[], presets: ProductPreset[], machines: Machine[], fieldLabels: Record<string, string>, viewMode?: 'grid' | 'list' }> = ({ log, availableFields, presets, machines, fieldLabels, viewMode = 'grid' }) => {
+const LogCard: React.FC<{ log: any, availableFields: string[], presets: ProductPreset[], machines: Machine[], fieldLabels: Record<string, string>, viewMode?: 'grid' | 'list' }> = ({ log, availableFields, presets, machines, fieldLabels, viewMode = 'list' }) => {
   const [isOpen, setIsOpen] = useState(false);
   
   const pName = getLogProductName(log);
@@ -747,12 +747,25 @@ const LogCard: React.FC<{ log: any, availableFields: string[], presets: ProductP
 
                 return (
                   <div key={f} className={`bg-slate-900/80 px-3 py-2 rounded-xl border ${borderColor} flex items-center justify-between transition-all gap-2`}>
-                    <p className="text-[10px] text-slate-300 font-bold uppercase leading-tight flex-1">{fieldLabels[f] || f}</p>
+                    <p className="text-[10px] text-slate-200 font-black uppercase leading-tight flex-1">{fieldLabels[f] || f}</p>
                     <div className="flex items-center font-mono whitespace-nowrap">
                       <span className={`text-xs font-black ${color} w-12 text-right`}>{val}</span>
-                      <div className="flex items-baseline border-l border-slate-700 pl-2 ml-2">
-                        <span className="text-[10px] text-slate-500 font-bold">{std}</span>
-                        <span className="text-[9px] text-slate-600 font-bold ml-0.5">±{tol}</span>
+                      <div className="flex items-center border-l border-slate-700 pl-2 ml-2 gap-2">
+                        <div className="flex items-baseline">
+                          <span className="text-[10px] text-slate-500 font-bold">{std}</span>
+                          <span className="text-[9px] text-slate-600 font-bold ml-0.5">±{tol}</span>
+                        </div>
+                        {val !== null && (
+                          diffAbs <= tol ? (
+                            <div className="w-3.5 h-3.5 rounded-full bg-green-500 flex items-center justify-center shadow-sm">
+                              <Check size={10} className="text-white" strokeWidth={4} />
+                            </div>
+                          ) : (
+                            <div className="w-3.5 h-3.5 rounded-full bg-red-500 flex items-center justify-center shadow-sm">
+                              <X size={10} className="text-white" strokeWidth={4} />
+                            </div>
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
